@@ -8,7 +8,7 @@ public class player : MonoBehaviour
     private GameObject myArrow = null;
     private AudioSource audioSource;
     public static bool isActive = false;
-    public static float timer = 3.0f;
+    public static float timer = 30.0f;
 
     void Start()
     {
