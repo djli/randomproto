@@ -46,15 +46,19 @@ public class WindEffector : MonoBehaviour
 
 private void OnGUI()
 {
-    GUIStyle guiStyle = new GUIStyle(GUI.skin.label);
-    guiStyle.fontSize = 40; // Set the font size even larger
-    guiStyle.normal.textColor = Color.white; // Set the text color
+    GUIStyle labelStyle = new GUIStyle(GUI.skin.label);
+    labelStyle.fontSize = 70; // Font size for the label text. Adjust as necessary.
+    labelStyle.normal.textColor = Color.white; // Set text color to white
+    
+    GUIStyle numberStyle = new GUIStyle(GUI.skin.label);
+    numberStyle.fontSize = 90; // Larger font size for the number. Adjust as necessary.
+    numberStyle.normal.textColor = Color.white; // Set text color to white
 
-    float adjustedAngle = (360 - areaEffector.forceAngle + 90) % 360;
-    string direction = GetDirectionFromAngle(adjustedAngle);
-
-    GUI.Label(new Rect(10, 10, 800, 60), "Force Magnitude: " + areaEffector.forceMagnitude.ToString("F2"), guiStyle);
-    GUI.Label(new Rect(10, 70, 800, 60), "Force Angle: " + adjustedAngle.ToString("F2") + "° (" + direction + ")", guiStyle);
+    // Display the "Force Magnitude:" label with smaller text
+    GUI.Label(new Rect(10, 10, 800, 90), "Force Magnitude:", labelStyle);
+    
+    // Display the force magnitude number with larger text
+    GUI.Label(new Rect(10, 100, 800, 100), areaEffector.forceMagnitude.ToString("F2"), numberStyle);
 }
 
     private string GetDirectionFromAngle(float angle)
@@ -69,4 +73,9 @@ private void OnGUI()
         if (angle >= 292.5f && angle < 337.5f) return "NW";
         return "";
     }
+    public float GetForceAngle()
+    {
+        return areaEffector.forceAngle;
+    }
+
 }
