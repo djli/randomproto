@@ -1,14 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class arrowmovement : MonoBehaviour
 {
     public Rigidbody2D rb;
+
+    // Reference to the ScoreManager
+    private ScoreManager scoreManager;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        // Finding and referencing the ScoreManager in the scene
+        scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
+        if (scoreManager == null)
+        {
+            Debug.LogError("ScoreManager not found in the scene!");
+        }
     }
 
     // Update is called once per frame
@@ -20,27 +27,36 @@ public class arrowmovement : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, 70 * Time.deltaTime);
         }
     }
+private void OnCollisionEnter2D(Collision2D collision)
+{
+    TargetSoundScript targetSoundScript = collision.gameObject.GetComponent<TargetSoundScript>();
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    if (targetSoundScript != null)
     {
-        if (collision.gameObject.CompareTag("walls"))
-        {
-            Destroy(this.gameObject);
-        }
-        if (collision.gameObject.CompareTag("yellow"))
-        {
-            //add 50 points
-            Destroy(this.gameObject);
-        }
-        if (collision.gameObject.CompareTag("red"))
-        {
-            //add 25 points
-            Destroy(this.gameObject);
-        }
-        if (collision.gameObject.CompareTag("blue"))
-        {
-            //add 10 points
-            Destroy(this.gameObject);
-        }
+        targetSoundScript.PlayHitSound();
     }
+
+    if (collision.gameObject.CompareTag("walls"))
+    {
+        Destroy(this.gameObject);
+    }
+    else if (collision.gameObject.CompareTag("yellow"))
+    {
+        //add 50 points
+        scoreManager.AddScore(50);
+        Destroy(this.gameObject);
+    }
+    else if (collision.gameObject.CompareTag("red"))
+    {
+        //add 25 points
+        scoreManager.AddScore(25);
+        Destroy(this.gameObject);
+    }
+    else if (collision.gameObject.CompareTag("blue"))
+    {
+        //add 10 points
+        scoreManager.AddScore(10);
+        Destroy(this.gameObject);
+    }
+}
 }
