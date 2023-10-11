@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class player : MonoBehaviour
 {
+
+    public GameObject arrow;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,5 +19,11 @@ public class player : MonoBehaviour
         Vector2 cursorPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = cursorPosition - bowPosition;
         transform.right = direction;
+        if (Input.GetMouseButtonDown(0))
+        {
+            GameObject arrowIns = Instantiate(arrow, bowPosition, Quaternion.identity);
+            arrowIns.transform.right = direction;
+            arrowIns.GetComponent<Rigidbody2D>().AddForce(direction * 100);
+        }
     }
 }
