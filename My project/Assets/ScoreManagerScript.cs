@@ -26,10 +26,11 @@ public class ScoreManager : MonoBehaviour
     // Function to update the score text UI
     private void UpdateScoreText()
     {
-        scoreText.text = "Time: " + player.timer.ToString() + " Score: " + score.ToString();
+        scoreText.text = "Time: " + player.timer.ToString() + "\nScore: " + score.ToString();
         if (player.timer <= 0f)
         {
-            scoreText.text = "Game Over! Final Score: " + score.ToString();
+            scoreText.text = "Game Over!\nFinal Score: " + score.ToString();
+            Time.timeScale = 0f;
         }
     }
 }
