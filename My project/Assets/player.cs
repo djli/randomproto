@@ -7,6 +7,8 @@ public class player : MonoBehaviour
 
     private GameObject myArrow = null;
     private AudioSource audioSource;
+    public static bool isActive = false;
+    public static float timer = 3.0f;
 
     void Start()
     {
@@ -25,13 +27,15 @@ public class player : MonoBehaviour
         Vector2 cursorPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = cursorPosition - bowPosition;
         transform.right = direction;
+        timer -= Time.deltaTime;
 
-        if (Input.GetMouseButtonDown(0) && myArrow == null)
+        if (Input.GetMouseButtonDown(0) && !isActive && timer > 0.0f)
         {
             // Instantiate arrow and set its direction
-            GameObject arrowIns = Instantiate(arrow, bowPosition, Quaternion.identity);
-            arrowIns.transform.right = direction;
-            arrowIns.GetComponent<Rigidbody2D>().AddForce(direction * 100);
+            isActive = true;
+            GameObject myArrow = Instantiate(arrow, bowPosition, Quaternion.identity);
+            myArrow.transform.right = direction;
+            myArrow.GetComponent<Rigidbody2D>().AddForce(direction * 100);
 
             // Play the shooting sound effect
             PlayShootSound();
@@ -50,5 +54,10 @@ public class player : MonoBehaviour
         {
             Debug.LogError("Shoot sound or AudioSource component is missing!");
         }
+    }
+
+    public static void noArrow()
+    {
+        isActive = false;
     }
 }

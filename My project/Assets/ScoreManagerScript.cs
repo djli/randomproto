@@ -27,5 +27,9 @@ public class ScoreManager : MonoBehaviour
     private void UpdateScoreText()
     {
         scoreText.text = "Score: " + score.ToString();
+        if (player.timer <= 0f)
+        {
+            scoreText.text = "Game Over! Final Score: " + score.ToString();
+        }
     }
 }
